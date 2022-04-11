@@ -6,15 +6,15 @@ const Wrapper = styled.div`
   .contact-wrapper {
     position: relative;
     overflow: hidden;
-    margin-top: 30px;
 
-    a {
+    .button {
       display: block;
       text-decoration: none;
-      color: ${(props) => props.theme.text.white};
-      padding: 10px 20px;
-      border: 1px solid ${(props) => props.theme.colors.primary};
+      color: ${props => props.theme.text.white};
+      padding: ${props => props.theme.spacing[2]} ${props => props.theme.spacing[3]};
+      border: 1px solid ${props => props.theme.colors.primary};
       text-transform: uppercase;
+      font-size: ${props => props.theme.fontSize.desktop.button};
       font-weight: bold;
       letter-spacing: 5px;
       position: relative;
@@ -31,10 +31,18 @@ const Wrapper = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: ${(props) => props.theme.colors.primary};
+        background-color: ${props => props.theme.colors.primary};
         transform: scaleX(0);
         transform-origin: left;
         transition: all 0.4s;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-wrapper {
+      .button {
+        font-size: ${props => props.theme.fontSize.mobile.button};
       }
     }
   }
@@ -61,8 +69,8 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ tl }) => {
   return (
     <Wrapper>
       <div className="contact-wrapper">
-        <a ref={contactBtnRef} href="#">
-          İletişim!
+        <a className="button" ref={contactBtnRef} href="#">
+          İLETİŞİM!
         </a>
       </div>
     </Wrapper>
