@@ -4,17 +4,19 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import React from "react";
 import { theme } from "../shared/theme";
 import Head from "next/head";
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
 const GlobalStyle = createGlobalStyle`
 
   * {
-    /* cursor: none; */
+    cursor: none;
     box-sizing: border-box;
     color: white;
   }
 
   html body {
-    background-color: ${(props) => props.theme.colors.bgColor};
+    background-color: ${props => props.theme.colors.bgColor};
     font-family: "JetBrains Mono", sans-serif;
     margin: 0;
   }
@@ -31,15 +33,17 @@ const GlobalStyle = createGlobalStyle`
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <React.Fragment>
-      <Head>
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-      </Head>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </React.Fragment>
+    <Provider store={store}>
+      <React.Fragment>
+        <Head>
+          <meta content="width=device-width, initial-scale=1" name="viewport" />
+        </Head>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </React.Fragment>
+    </Provider>
   );
 }
 
