@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "@types/react-redux": "^7.1.23",
     "gsap": "^3.10.2",
     "next": "12.1.4",
