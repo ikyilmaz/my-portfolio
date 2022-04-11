@@ -51,10 +51,10 @@ export const Heading: React.FC<HeadingProps> = ({ tl }) => {
       {
         y: 100,
         autoAlpha: 1,
-        stagger: 1.2,
+        stagger: 0.3,
         ease: "power4.out",
         duration: 1,
-        skewY: 7,
+        skewY: 10,
       },
       0.4
     );
