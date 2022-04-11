@@ -10,8 +10,9 @@ const Wrapper = styled.div`
     .button {
       display: block;
       text-decoration: none;
+      width: min-content;
       color: ${props => props.theme.text.white};
-      padding: ${props => props.theme.spacing[2]} ${props => props.theme.spacing[3]};
+      padding: ${props => props.theme.spacing[3]} ${props => props.theme.spacing[4]};
       border: 1px solid ${props => props.theme.colors.primary};
       text-transform: uppercase;
       font-size: ${props => props.theme.fontSize.desktop.button};

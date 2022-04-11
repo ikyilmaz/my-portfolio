@@ -13,18 +13,23 @@ const Section = styled.div`
   height: 100%;
   width: 90vw;
   margin: auto;
+  align-items: center;
   /* background-color: #555; */
 
   .heading {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    /* background-color: #555; */
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content min-content;
+    gap: ${props => props.theme.spacing[5]} 0px;
+    grid-template-areas:
+      "heading"
+      "features"
+      "contact";
   }
 
   .vertical-line {
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${props => props.theme.colors.primary};
     height: 50%;
     width: 2px;
     align-self: flex-end;
@@ -40,7 +45,7 @@ const Section = styled.div`
       width: 10px;
       height: 10px;
       border-radius: 10px;
-      background-color: ${(props) => props.theme.colors.primary};
+      background-color: ${props => props.theme.colors.primary};
     }
   }
 `;

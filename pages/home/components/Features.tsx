@@ -4,29 +4,28 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   h6 {
-    margin-top: 30px;
-
+    margin: 0;
     .feature {
       display: inline-block;
       padding-left: 25px;
-      font-size: ${(props) => props.theme.fontSize.desktop.badge};
+      font-size: ${props => props.theme.fontSize.desktop.badge};
       font-weight: 100;
     }
 
     .tag {
       font-weight: 500;
-      font-size: ${(props) => props.theme.fontSize.desktop.headingSecondary};
+      font-size: ${props => props.theme.fontSize.desktop.headingSecondary};
     }
   }
 
   @media (max-width: 768px) {
     h6 {
       .feature {
-        font-size: ${(props) => props.theme.fontSize.mobile.badge};
+        font-size: ${props => props.theme.fontSize.mobile.badge};
       }
 
       .tag {
-        font-size: ${(props) => props.theme.fontSize.mobile.badge};
+        font-size: ${props => props.theme.fontSize.mobile.badge};
       }
     }
   }
