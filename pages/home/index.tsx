@@ -9,14 +9,18 @@ import { Features } from "./components/Features";
 import { Heading } from "./components/Heading";
 
 const Section = styled.div`
-  height: 100vh;
   display: flex;
+  height: 100%;
+  width: 90vw;
+  margin: auto;
+  /* background-color: #555; */
+
   .heading {
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    /* background-color: #555; */
   }
 
   .vertical-line {
@@ -46,20 +50,14 @@ const HomePage: NextPage = () => {
 
   return (
     <DefaultLayout>
-      <div className="container">
-        <div className="row">
-          <div className="twelve columns">
-            <Section>
-              <div className="vertical-line"></div>
-              <div className="heading">
-                <Heading tl={tlRef.current} />
-                <Features tl={tlRef.current} />
-                <ContactButton tl={tlRef.current} />
-              </div>
-            </Section>
-          </div>
+      <Section>
+        <div className="vertical-line"></div>
+        <div className="heading">
+          <Heading tl={tlRef.current} />
+          <Features tl={tlRef.current} />
+          <ContactButton tl={tlRef.current} />
         </div>
-      </div>
+      </Section>
     </DefaultLayout>
   );
 };
