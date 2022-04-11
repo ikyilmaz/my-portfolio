@@ -29,5 +29,5 @@ export const theme: DefaultTheme = {
       button: "1.2rem",
     },
   },
-  spacing: ["0.4rem", "0.8rem", "1.6rem", "3.2rem", "6.4rem"],
+  spacing: ["0.2rem", "0.4rem", "0.8rem", "1.6rem", "2.4rem", "3.2rem", "4.8rem", "6.4rem"],
 };
