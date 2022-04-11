@@ -74,6 +74,10 @@ export const AnimatedCursor: React.FC = () => {
           height: 40,
         });
       });
+
+      return () => {
+        // links.forEach(link => document.removeEventListener("mouseenter", ))
+      };
     });
 
     document.addEventListener("mousemove", mouseMoveEvent);
