@@ -1,6 +1,9 @@
 import gsap from "gsap";
 import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { mouseEnter, mouseLeave } from "../../../redux/cursorSlice";
+import { useAppDispatch } from "../../../redux/hooks";
 
 const Wrapper = styled.div`
   .contact-wrapper {
@@ -44,6 +47,7 @@ const Wrapper = styled.div`
     .contact-wrapper {
       .button {
         font-size: ${props => props.theme.fontSize.mobile.button};
+        padding: ${props => props.theme.spacing[2]} ${props => props.theme.spacing[3]};
       }
     }
   }
@@ -55,6 +59,8 @@ type ContactButtonProps = {
 
 export const ContactButton: React.FC<ContactButtonProps> = ({ tl }) => {
   const contactBtnRef = useRef<HTMLAnchorElement>(null);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     tl.from(
       contactBtnRef.current,
@@ -70,7 +76,13 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ tl }) => {
   return (
     <Wrapper>
       <div className="contact-wrapper">
-        <a className="button" ref={contactBtnRef} href="#">
+        <a
+          onMouseEnter={() => dispatch(mouseEnter())}
+          onMouseLeave={() => dispatch(mouseLeave())}
+          className="button"
+          ref={contactBtnRef}
+          href="#"
+        >
           İLETİŞİM!
         </a>
       </div>
