@@ -1,9 +1,11 @@
 import { gsap } from "gsap";
 import type { NextPage } from "next";
-import React from "react";
+import React, { useContext } from "react";
 import { useRef } from "react";
 import styled from "styled-components";
+import { TransitionContext } from "../../components/TransitionProvider";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { useIsomorphicLayoutEffect } from "../../shared/utils";
 import { ContactButton } from "./components/ContactButton";
 import { Features } from "./components/Features";
 import { Heading } from "./components/Heading";
@@ -51,16 +53,32 @@ const Section = styled.div`
 `;
 
 const HomePage: NextPage = () => {
+  const lineRef = useRef<HTMLDivElement>(null);
+  const { timeline } = useContext(TransitionContext);
+  // kaldır bunu ve delayi
   const tlRef = useRef(gsap.timeline());
+
+  useIsomorphicLayoutEffect(() => {
+    gsap.from(lineRef.current, {
+      opacity: 0,
+    });
+    timeline.add(
+      gsap.to(lineRef.current, {
+        opacity: 0,
+        ease: "power4.out",
+      }),
+      0
+    );
+  }, []);
 
   return (
     <DefaultLayout>
       <Section>
-        <div className="vertical-line"></div>
+        <div ref={lineRef} className="vertical-line"></div>
         <div className="heading">
-          <Heading tl={tlRef.current} />
-          <Features tl={tlRef.current} />
-          <ContactButton tl={tlRef.current} />
+          <Heading delay={1} tl={tlRef.current} />
+          <Features delay={1} tl={tlRef.current} />
+          <ContactButton delay={1} tl={tlRef.current} />
         </div>
       </Section>
     </DefaultLayout>

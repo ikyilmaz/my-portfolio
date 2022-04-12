@@ -6,6 +6,8 @@ import { theme } from "../shared/theme";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import { TransitionProvider } from "../components/TransitionProvider";
+import { TransitionLayout } from "../components/TransitionLayout";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -33,17 +35,21 @@ const GlobalStyle = createGlobalStyle`
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
-      <React.Fragment>
-        <Head>
-          <meta content="width=device-width, initial-scale=1" name="viewport" />
-        </Head>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </React.Fragment>
-    </Provider>
+    <TransitionProvider>
+      <TransitionLayout>
+        <Provider store={store}>
+          <React.Fragment>
+            <Head>
+              <meta content="width=device-width, initial-scale=1" name="viewport" />
+            </Head>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </React.Fragment>
+        </Provider>
+      </TransitionLayout>
+    </TransitionProvider>
   );
 }
 
