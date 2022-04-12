@@ -1,7 +1,11 @@
-import React from "react";
+import Link from "next/link";
+import React, { useContext, useRef } from "react";
 import styled from "styled-components";
+import gsap from "gsap";
 import { mouseEnter, mouseLeave } from "../redux/cursorSlice";
 import { useAppDispatch } from "../redux/hooks";
+import { useIsomorphicLayoutEffect } from "../shared/utils";
+import { TransitionContext } from "./TransitionProvider";
 
 const Wrapper = styled.div`
   nav {
@@ -85,17 +89,32 @@ const Wrapper = styled.div`
 
 export const NavigationBar: React.FC = () => {
   const dispatch = useAppDispatch();
-
+  const navRef = useRef<HTMLElement>(null);
+  const { timeline } = useContext(TransitionContext);
   const links = [
-    { name: "anasayfa", url: "#", active: true },
+    { name: "anasayfa", url: "/", active: true },
     { name: "hakkımda", url: "#", active: false },
-    { name: "iletişim", url: "#", active: false },
+    { name: "iletişim", url: "/contact", active: false },
     { name: "github", url: "#", active: false },
   ];
 
+  useIsomorphicLayoutEffect(() => {
+    gsap.from(navRef.current, {
+      opacity: 0,
+      duration: 1,
+    });
+    timeline.add(
+      gsap.to(navRef.current, {
+        opacity: 0,
+        ease: "power4.out",
+      }),
+      0
+    );
+  }, []);
+
   return (
     <Wrapper>
-      <nav>
+      <nav ref={navRef}>
         <div className="brand">
           <span>ismail kurban yilmaz</span>
         </div>
@@ -104,16 +123,17 @@ export const NavigationBar: React.FC = () => {
             {links.map(link => {
               return (
                 <li key={link.name} className="menu-list-item">
-                  <a
-                    onMouseEnter={() => dispatch(mouseEnter())}
-                    onMouseLeave={() => dispatch(mouseLeave())}
-                    className={link.active ? "active" : ""}
-                    href={link.url}
-                  >
-                    <span>.</span>
-                    {link.name}
-                    <span>()</span>
-                  </a>
+                  <Link href={link.url}>
+                    <a
+                      onMouseEnter={() => dispatch(mouseEnter())}
+                      onMouseLeave={() => dispatch(mouseLeave())}
+                      className={link.active ? "active" : ""}
+                    >
+                      <span>.</span>
+                      {link.name}
+                      <span>()</span>
+                    </a>
+                  </Link>
                 </li>
               );
             })}

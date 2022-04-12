@@ -1,6 +1,8 @@
 import gsap from "gsap";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { TransitionContext } from "../../../components/TransitionProvider";
+import { useIsomorphicLayoutEffect } from "../../../shared/utils";
 
 const Wrapper = styled.div`
   h6 {
@@ -33,38 +35,45 @@ const Wrapper = styled.div`
 
 type FeaturesProps = {
   tl: gsap.core.Timeline;
+  delay: number;
 };
 
-export const Features: React.FC<FeaturesProps> = ({ tl }) => {
+export const Features: React.FC<FeaturesProps> = ({ tl, delay }) => {
   const featuresRef = useRef<HTMLHeadingElement>(null);
 
-  useEffect(() => {
+  const { timeline } = useContext(TransitionContext);
+
+  useIsomorphicLayoutEffect(() => {
     const featuresSelector = gsap.utils.selector(featuresRef.current);
 
-    tl.from(
-      featuresSelector(".tag"),
-      {
+    gsap.from(featuresSelector(".tag"), {
+      x: -100,
+      opacity: 0,
+      ease: "power4.out",
+      delay,
+    });
+
+    gsap.from(featuresSelector(".feature"), {
+      x: 100,
+      opacity: 0,
+      ease: "power4.out",
+      stagger: {
+        amount: 0.3,
+        from: "edges",
+      },
+      delay,
+    });
+
+    timeline.add(
+      gsap.to(featuresRef.current, {
         x: -100,
         opacity: 0,
+        duration: 0.7,
         ease: "power4.out",
-      },
-      1
+      }),
+      0
     );
-
-    tl.from(
-      featuresSelector(".feature"),
-      {
-        x: 100,
-        opacity: 0,
-        ease: "power4.out",
-        stagger: {
-          amount: 0.3,
-          from: "edges",
-        },
-      },
-      1
-    );
-  });
+  }, []);
 
   return (
     <Wrapper>

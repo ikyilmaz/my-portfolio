@@ -1,6 +1,8 @@
 import gsap from "gsap";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { TransitionContext } from "../../../components/TransitionProvider";
+import { useIsomorphicLayoutEffect } from "../../../shared/utils";
 
 const Wrapper = styled.div`
   .heading-wrapper {
@@ -14,7 +16,7 @@ const Wrapper = styled.div`
 
     .heading {
       display: block;
-      font-size: ${(props) => props.theme.fontSize.desktop.headingPrimary};
+      font-size: ${props => props.theme.fontSize.desktop.headingPrimary};
       font-weight: 500;
 
       &:hover::before {
@@ -29,14 +31,14 @@ const Wrapper = styled.div`
         left: 0;
         width: 100%;
         height: 2px;
-        background-color: ${(props) => props.theme.colors.primary};
+        background-color: ${props => props.theme.colors.primary};
         transform: scaleX(0);
         transform-origin: left;
         transition: all 0.4s;
       }
 
       b {
-        color: ${(props) => props.theme.colors.primary};
+        color: ${props => props.theme.colors.primary};
       }
     }
   }
@@ -44,7 +46,7 @@ const Wrapper = styled.div`
   @media (max-width: 768px) {
     .heading-wrapper {
       .heading {
-        font-size: ${(props) => props.theme.fontSize.mobile.headingPrimary};
+        font-size: ${props => props.theme.fontSize.mobile.headingPrimary};
       }
     }
   }
@@ -52,25 +54,48 @@ const Wrapper = styled.div`
 
 type HeadingProps = {
   tl: gsap.core.Timeline;
+  delay: number;
 };
 
-export const Heading: React.FC<HeadingProps> = ({ tl }) => {
+export const Heading: React.FC<HeadingProps> = ({ tl, delay }) => {
   const headingRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+
+  const { timeline } = useContext(TransitionContext);
+
+  useIsomorphicLayoutEffect(() => {
     const headingSelector = gsap.utils.selector(headingRef.current);
-    tl.from(
-      headingSelector("h2"),
-      {
-        y: 100,
-        autoAlpha: 1,
-        stagger: 0.3,
+
+    gsap.from(headingSelector(".heading"), {
+      y: 100,
+      autoAlpha: 1,
+      stagger: 0.3,
+      ease: "power4.out",
+      duration: 1,
+      skewY: 10,
+      delay,
+    });
+
+    timeline.add(
+      gsap.to(headingRef.current, {
+        x: -100,
+        opacity: 0,
+        duration: 0.7,
         ease: "power4.out",
-        duration: 1,
-        skewY: 10,
-      },
-      0.4
+      }),
+      0
     );
-  });
+
+    // timeline.add(
+    //   gsap.to(headingSelector("h2"), {
+    //     y: -100,
+    //     autoAlpha: 1,
+    //     stagger: 0.3,
+    //     ease: "power4.out",
+    //     duration: 1,
+    //     skewY: -10,
+    //   })
+    // );
+  }, []);
 
   return (
     <Wrapper ref={headingRef}>
