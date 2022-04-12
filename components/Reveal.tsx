@@ -1,9 +1,11 @@
 import { gsap } from "gsap";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
+import { useIsomorphicLayoutEffect } from "../shared/utils";
+import { TransitionContext } from "./TransitionProvider";
 
 const FirstLayer = styled.div`
-  background-color: crimson;
+  background-color: ${props => props.theme.colors.primary};
   position: fixed;
   z-index: 99;
   top: 0;
@@ -15,7 +17,7 @@ const FirstLayer = styled.div`
 `;
 
 const SecondLayer = styled.div`
-  background-color: black;
+  background-color: ${props => props.theme.colors.bgColor};
   position: fixed;
   z-index: 99;
   top: 0;
@@ -30,7 +32,9 @@ export const Reveal = () => {
   const firstLayerRef = useRef<HTMLDivElement>(null);
   const secondLayerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const { timeline } = useContext(TransitionContext);
+
+  useIsomorphicLayoutEffect(() => {
     gsap.to([secondLayerRef.current, firstLayerRef.current], {
       transform: "scaleY(0)",
       duration: 1,
@@ -38,8 +42,15 @@ export const Reveal = () => {
       ease: "Expo.easeInOut",
     });
 
-    console.log("annen");
-  });
+    // timeline.add(
+    //   gsap.to([firstLayerRef.current, secondLayerRef.current], {
+    //     transform: "scaleY(1)",
+    //     duration: 1,
+    //     stagger: 0.3,
+    //     ease: "Expo.easeInOut",
+    //   })
+    // );
+  }, []);
 
   return (
     <React.Fragment>
