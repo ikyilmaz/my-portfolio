@@ -9,6 +9,8 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { useIsomorphicLayoutEffect } from "../../../shared/utils";
 
 const Wrapper = styled.div`
+  grid-area: contact;
+
   .contact-wrapper {
     position: relative;
     overflow: hidden;
@@ -57,11 +59,10 @@ const Wrapper = styled.div`
 `;
 
 type ContactButtonProps = {
-  tl: gsap.core.Timeline;
   delay: number;
 };
 
-export const ContactButton: React.FC<ContactButtonProps> = ({ tl, delay }) => {
+export const ContactButton: React.FC<ContactButtonProps> = ({ delay }) => {
   const contactBtnRef = useRef<HTMLAnchorElement>(null);
   const dispatch = useAppDispatch();
 

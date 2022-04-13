@@ -5,6 +5,8 @@ import { TransitionContext } from "../../../components/TransitionProvider";
 import { useIsomorphicLayoutEffect } from "../../../shared/utils";
 
 const Wrapper = styled.div`
+  grid-area: heading;
+
   .heading-wrapper {
     width: 100%;
     height: 7rem;
@@ -43,21 +45,28 @@ const Wrapper = styled.div`
     }
   }
 
+  .heading-wrapper:nth-child(3) {
+    height: 8rem;
+  }
+
   @media (max-width: 768px) {
     .heading-wrapper {
       .heading {
         font-size: ${props => props.theme.fontSize.mobile.headingPrimary};
       }
     }
+
+    .heading-wrapper:nth-child(3) {
+      height: 9rem;
+    }
   }
 `;
 
 type HeadingProps = {
-  tl: gsap.core.Timeline;
   delay: number;
 };
 
-export const Heading: React.FC<HeadingProps> = ({ tl, delay }) => {
+export const Heading: React.FC<HeadingProps> = ({ delay }) => {
   const headingRef = useRef<HTMLDivElement>(null);
 
   const { timeline } = useContext(TransitionContext);
@@ -66,6 +75,7 @@ export const Heading: React.FC<HeadingProps> = ({ tl, delay }) => {
     const headingSelector = gsap.utils.selector(headingRef.current);
 
     gsap.from(headingSelector(".heading"), {
+      opacity: 0,
       y: 100,
       autoAlpha: 1,
       stagger: 0.3,
@@ -84,17 +94,6 @@ export const Heading: React.FC<HeadingProps> = ({ tl, delay }) => {
       }),
       0
     );
-
-    // timeline.add(
-    //   gsap.to(headingSelector("h2"), {
-    //     y: -100,
-    //     autoAlpha: 1,
-    //     stagger: 0.3,
-    //     ease: "power4.out",
-    //     duration: 1,
-    //     skewY: -10,
-    //   })
-    // );
   }, []);
 
   return (

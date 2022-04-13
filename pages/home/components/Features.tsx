@@ -5,6 +5,8 @@ import { TransitionContext } from "../../../components/TransitionProvider";
 import { useIsomorphicLayoutEffect } from "../../../shared/utils";
 
 const Wrapper = styled.div`
+  grid-area: features;
+
   h6 {
     margin: 0;
     .feature {
@@ -34,11 +36,10 @@ const Wrapper = styled.div`
 `;
 
 type FeaturesProps = {
-  tl: gsap.core.Timeline;
   delay: number;
 };
 
-export const Features: React.FC<FeaturesProps> = ({ tl, delay }) => {
+export const Features: React.FC<FeaturesProps> = ({ delay }) => {
   const featuresRef = useRef<HTMLHeadingElement>(null);
 
   const { timeline } = useContext(TransitionContext);
