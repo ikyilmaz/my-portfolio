@@ -18,6 +18,9 @@ const Container = styled.div`
 
   .content {
     grid-area: "content";
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
