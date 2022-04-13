@@ -1,5 +1,6 @@
 import { gsap } from "gsap";
 import type { NextPage } from "next";
+import Image from "next/image";
 import React, { useContext } from "react";
 import { useRef } from "react";
 import styled from "styled-components";
@@ -9,25 +10,26 @@ import { useIsomorphicLayoutEffect } from "../../shared/utils";
 import { ContactButton } from "./components/ContactButton";
 import { Features } from "./components/Features";
 import { Heading } from "./components/Heading";
+import { MeImage } from "./components/MeImage";
 
 const Section = styled.div`
   display: flex;
   height: 100%;
   width: 90vw;
-  margin: auto;
   align-items: center;
+  padding: 0 200px;
   /* background-color: #555; */
 
   .heading {
     display: grid;
     grid-auto-columns: 1fr;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: min-content min-content min-content;
     gap: ${props => props.theme.spacing[5]} 0px;
     grid-template-areas:
-      "heading"
-      "features"
-      "contact";
+      "heading meStart"
+      "features meCenter"
+      "contact meEnd";
   }
 
   .vertical-line {
@@ -49,6 +51,10 @@ const Section = styled.div`
       border-radius: 10px;
       background-color: ${props => props.theme.colors.primary};
     }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0px 40px;
   }
 `;
 
@@ -76,9 +82,10 @@ const HomePage: NextPage = () => {
       <Section>
         <div ref={lineRef} className="vertical-line"></div>
         <div className="heading">
-          <Heading delay={1} tl={tlRef.current} />
-          <Features delay={1} tl={tlRef.current} />
-          <ContactButton delay={1} tl={tlRef.current} />
+          <Heading delay={1} />
+          <Features delay={1} />
+          <ContactButton delay={1} />
+          <MeImage delay={1} />
         </div>
       </Section>
     </DefaultLayout>
