@@ -6,6 +6,7 @@ import { mouseEnter, mouseLeave } from "../redux/cursorSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { useIsomorphicLayoutEffect } from "../shared/utils";
 import { TransitionContext } from "./TransitionProvider";
+import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
   nav {
@@ -85,15 +86,26 @@ const Wrapper = styled.div`
       }
     }
   }
+
+  @media (max-width: 768px) {
+    nav {
+      .menu {
+        display: none;
+      }
+    }
+  }
 `;
 
 export const NavigationBar: React.FC = () => {
   const dispatch = useAppDispatch();
   const navRef = useRef<HTMLElement>(null);
   const { timeline } = useContext(TransitionContext);
+
+  const router = useRouter();
+
   const links = [
     { name: "anasayfa", url: "/", active: true },
-    { name: "hakkımda", url: "#", active: false },
+    { name: "hakkımda", url: "/about", active: false },
     { name: "iletişim", url: "/contact", active: false },
     { name: "github", url: "#", active: false },
   ];
@@ -127,7 +139,7 @@ export const NavigationBar: React.FC = () => {
                     <a
                       onMouseEnter={() => dispatch(mouseEnter())}
                       onMouseLeave={() => dispatch(mouseLeave())}
-                      className={link.active ? "active" : ""}
+                      className={router.asPath == link.url ? "active" : ""}
                     >
                       <span>.</span>
                       {link.name}
